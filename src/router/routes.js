@@ -5,9 +5,9 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 // Pages
-import Home from '@/pages/Home'
-import NotFound from '@/pages/404'
-import Notify from '@/pages/NotifyPage'
+import Home from '../components/pages/Home.vue'
+import NotFound from '../components/pages/404.vue'
+import Notify from '../components/pages/NotifyPage.vue'
 
 // Routering
 export default new Router({
