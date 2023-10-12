@@ -21,33 +21,19 @@
 
 <script>
 import notify from "@/components/Notify.vue";
+import api from "@/api/api.json";
 export default {
   components: {
     notify,
   },
   data() {
     return {
-      messages: [
-        {
-          title: "Notify 1",
-        },
-        {
-          title: "Notify 2",
-        },
-        {
-          title: "Notify 3",
-        },
-        {
-          title: "Notify 4",
-        },
-        {
-          title: "Notify 5",
-        },
-        {
-          title: "Notify 6",
-        },
-      ],
+      loading: false,
+      messages: [],
     };
+  },
+  created() {
+    this.messages = api.notify;
   },
 };
 </script>
@@ -64,7 +50,7 @@ export default {
   background-color: #fff;
   padding: 30px;
   border-radius: 16px;
-  box-shadow: 0 12px 22px 0 rgba(0,0,0,.1);
+  box-shadow: 0 12px 22px 0 rgba(0, 0, 0, 0.1);
 }
 .notify__content {
   display: flex;
