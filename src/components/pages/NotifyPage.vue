@@ -6,7 +6,8 @@
           <!-- title -->
           <div class="notify-title">
             <p>Notify App</p>
-            <svg @click="getNotify"
+            <svg
+              @click="getNotify"
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
               xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -32,7 +33,7 @@
           </div>
           <!-- notify -->
           <div class="notify__content" v-if="!loading">
-            <notify :messages="messages" />
+            <notify :messages="messagesFromStore" />
           </div>
         </div>
       </div>
@@ -43,6 +44,7 @@
 <script>
 import notify from "@/components/Notify.vue";
 import api from "@/api/api.json";
+
 export default {
   components: {
     notify,
@@ -50,11 +52,14 @@ export default {
   data() {
     return {
       loading: false,
+      localMessages: [], // Переименовано из messages в localMessages
+      messagesMain: [],
     };
   },
   computed: {
-    messages() {
-      return this.$store.getters.getMessage;
+    messagesFromStore() {
+      // Вычисляемое свойство для доступа к данным из хранилища
+      return this.$store.getters.getMessageMain;
     },
   },
   mounted() {
@@ -65,8 +70,19 @@ export default {
       this.loading = true;
       setTimeout(() => {
         this.loading = false;
-        this.$store.dispatch("setMessage", api.notify);
-        
+        let res = api.notify;
+        this.localMessages = [];
+        this.messagesMain = [];
+        for (let i = 0; i < res.length; i++) {
+          if (res[i].main) {
+            this.messagesMain.push(res[i]);
+          } else {
+            this.localMessages.push(res[i]);
+          }
+        }
+
+        this.$store.dispatch("setMessage", this.localMessages);
+        this.$store.dispatch("setMessageMain", this.messagesMain);
       }, 500);
     },
   },
@@ -95,18 +111,18 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%; 
+  width: 100%;
   margin-bottom: 30px;
 
   p {
     font-size: 24px;
     font-weight: 700;
     color: #000;
-    margin: 0; 
+    margin: 0;
   }
 
   svg {
-    margin-left: 10px; 
+    margin-left: 10px;
   }
 }
 
@@ -142,5 +158,4 @@ export default {
     transform: rotate(360deg);
   }
 }
-
 </style>
