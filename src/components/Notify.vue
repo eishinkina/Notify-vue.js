@@ -7,15 +7,22 @@
         </td>
       </tr>
     </transition-group>
+    <button @click="loadMore" class="btn btnPrimary">load more</button>
   </table>
 </template>
 
 <script>
 export default {
-  props: {
-    messages: {
-      type: Array,
-      required: true,
+  computed: {
+  messages() {
+    return this.$store.getters.getMessage;
+  },
+},
+  methods: {
+    loadMore() {
+      this.$store.dispatch("loadMessages").catch((err) => {
+        console.log(err);
+      });
     },
   },
 };

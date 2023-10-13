@@ -52,7 +52,7 @@ export default {
   data() {
     return {
       loading: false,
-      localMessages: [], // Переименовано из messages в localMessages
+      localMessages: [], 
       messagesMain: [],
     };
   },
